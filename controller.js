@@ -29,3 +29,59 @@ exports.userById = function (req, res) {
     }
   });
 };
+
+// Menambahkan data Mahasiswa
+exports.storeData = function (req, res) {
+  var nama = req.body.nama;
+  var jurusan = req.body.jurusan;
+
+  connection.query('INSERT INTO mahasiswa (nama, jurusan) VALUES (?,?)', [nama, jurusan], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      response.ok('Berhasil menambahkan data', res);
+    }
+  });
+};
+
+// Edit data mahasiswa
+exports.updateData = function (req, res) {
+  var id = req.body.id;
+  var nama = req.body.nama;
+  var jurusan = req.body.jurusan;
+
+  connection.query('UPDATE mahasiswa SET nama=?, jurusan=? where id=?', [nama, jurusan, id], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      response.ok('Berhasil Mengubah data', res);
+    }
+  });
+};
+
+// Delete data mahasiswa
+exports.deleteData = function (req, res) {
+  var id = req.body.id;
+
+  connection.query('DELETE FROM mahasiswa WHERE id = ?', [id], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+    } else {
+      response.ok('Berhasil di hapus', res);
+    }
+  });
+};
+
+// Manampilkan mata kuliah group
+exports.tampilGroup = function (req, res) {
+  connection.query(
+    'SELECT mahasiswa.id, mahasiswa.nama, mahasiswa.jurusan, mata_kuliah.nama_matkul FROM krs JOIN mata_kuliah JOIN mahasiswa WHERE krs.matkul_id = mata_kuliah.id AND krs.mahasiswa_id = mahasiswa.id ORDER BY mahasiswa.id',
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        response.oknested(rows, res);
+      }
+    }
+  );
+};
