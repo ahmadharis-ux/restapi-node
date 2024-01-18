@@ -3,6 +3,6 @@
 var response = require('./res');
 var connection = require('./koneksi');
 
-exports.index = function(req, req){
+exports.index = function(req, res){
     response.ok("Aplikasi Res Api berjalan");
 };
