@@ -6,9 +6,9 @@ const connection = mysql.createConnection({
   database: 'api',
 });
 
-conn.connect((err) => {
+connection.connect((err) => {
   if (err) throw err;
   console.log('mysql terkoneksi');
 });
 
-module.exports = conn;
+module.exports = connection;
